@@ -1,5 +1,6 @@
 #oh-my-posh init pwsh --config 'https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/powerlevel10k_rainbow.omp.json' | Invoke-Expression
-oh-my-posh init pwsh --config 'C:/Users/ARINA_ANJONG/powerlevel10k_rainbow.omp.json' | Invoke-Expression
+
+oh-my-posh init pwsh --config "powerlevel10k_rainbow.omp.json" | Invoke-Expression
 function OnViModeChange {
     if ($args[0] -eq 'Command') {
         # Set the cursor to a blinking block.
@@ -21,6 +22,12 @@ $PSReadLineOptions = @{
     ViModeIndicator = "Script"
     ViModeChangeHandler  = $Function:OnViModeChange
 }
+
+function IsAdmin {
+    $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+    return $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
 Set-PSReadLineOption @PSReadLineOptions
 
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
@@ -34,3 +41,12 @@ function vim ($File){
     }
 
 Set-Alias vim "C:\Program Files\Neovim\bin\nvim.exe"
+
+
+if(IsAdmin) {
+    Write-Host "Running with " -NoNewLine -ForegroundColor blue
+    Write-Host " ELEVATED " -ForegroundColor DarkRed -BackgroundColor white -NoNewline
+    Write-Host " privileges" -ForegroundColor blue
+} else {
+    Write-Host "Running with Standard privileges" -ForegroundColor blue
+}
