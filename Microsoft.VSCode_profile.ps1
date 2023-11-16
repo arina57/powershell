@@ -1,4 +1,3 @@
-# winget install JanDeDobbeleer.OhMyPosh -s winget
 #oh-my-posh init pwsh --config 'https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/powerlevel10k_rainbow.omp.json' | Invoke-Expression
 
 oh-my-posh init pwsh --config "powerlevel10k_rainbow.omp.json" | Invoke-Expression
